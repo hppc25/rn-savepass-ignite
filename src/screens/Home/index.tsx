@@ -31,14 +31,27 @@ export function Home() {
   async function loadData() {
     const dataKey = '@savepass:logins';
     // Get asyncStorage data, use setSearchListData and setData
+    const response = await AsyncStorage.getItem(dataKey);
+    const keys = response ? JSON.parse(response) : [];
+    
+    setData(keys);
+    setSearchListData(keys)
   }
 
   function handleFilterLoginData() {
     // Filter results inside data, save with setSearchListData
+    const list = searchListData.filter(key => key.service_name.includes(searchText))
+    setSearchListData(list)
   }
 
   function handleChangeInputText(text: string) {
     // Update searchText value
+    setSearchText(text)
+    if(text === undefined || text.trim() === '' ){
+      setSearchListData(data)
+    }
+    
+
   }
 
   useFocusEffect(useCallback(() => {
@@ -49,8 +62,8 @@ export function Home() {
     <>
       <Header
         user={{
-          name: 'Rocketseat',
-          avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
+          name: 'Helder',
+          avatar_url: 'https://avatars.githubusercontent.com/u/16633604?v=4'
         }}
       />
       <Container>
